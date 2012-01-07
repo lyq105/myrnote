@@ -1,0 +1,73 @@
+
+%\usepackage[utf8]{inputenc}
+%% 字体设置
+%%%% 中文字体
+%\usepackage{ctex}
+
+%%%% 英文字体
+
+%\setmainfont{TeX Gyre Termes}
+%\setsansfont{TeX Gyre Heros}
+%\setmonofont{Monaco}
+
+%%%% 数学字体
+%\usepackage[subscriptcorrection,nofontinfo]{mtpro2}
+%\usepackage{mathpazo}
+%\usepackage{mathtime}
+%\usepackage{fourier}
+%\usepackage[T1]{fontenc}
+%\usepackage{mathptmx}
+
+%%%% 其他字体
+
+
+
+%%%% 版面设置
+\usepackage[top=0.8in, bottom=0.8in, left=1in, right=1in]{geometry} %% 页芯尺寸
+
+%% 数学支持
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+%% 算法环境
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%% 图形支持
+\usepackage{graphicx}
+
+%%%%  色彩
+\usepackage{xcolor}
+
+%%%%  书签，超链接
+\usepackage[
+	unicode=true,
+	bookmarksnumbered=true,
+	bookmarksopen=true,
+	colorlinks=true,
+	linkcolor=red,
+	citecolor=blue,
+	dvipdfmx
+]{hyperref}
+
+\usepackage{listings}
+\lstset{
+basicstyle=\footnotesize\ttfamily,
+keywordstyle=\color{blue},
+identifierstyle=, 
+commentstyle=\color{black},
+stringstyle=\ttfamily,
+showstringspaces=false,
+%numbers=left,
+backgroundcolor=\color{gray!15},
+lastline=4,
+%frame=single
+}
+
+%% 自定义命令
+\newtheorem{remark}{注记}
+\newtheorem{think}{想法}
+\newtheorem{definition}{定义}
+\newtheorem{lemma}{引理}
+\newcommand{\figref}[1]{图~\ref{#1}}

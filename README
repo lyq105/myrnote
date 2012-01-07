@@ -1,0 +1,7 @@
+This is my rsearch note
+
+to generate the documents of the doc:
+
+	1. run the python script, to generate the contral flie.
+	2. latex of xelatex the main file, and then you will get the note.
+
