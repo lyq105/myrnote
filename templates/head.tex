@@ -25,8 +25,15 @@ Producer={pdfpro},
 \author{liyiqiang(lyq105 AT 163.com)}
 \date{\today}
 
+\usepackage{bibunits}
+\let\stdthebibliography\thebibliography
+\renewcommand{\thebibliography}{%
+\let\section\subsection
+\stdthebibliography}
+
 \begin{document}
 \maketitle
 \tableofcontents
 \newpage
+\bibliographyunit[\section]  % setting for list references after every section.
 
