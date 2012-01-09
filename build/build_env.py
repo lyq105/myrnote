@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python
 ##=============================================================================
 #   Project name:  Project name
 #       Filename:  Filename
@@ -23,7 +23,7 @@ import os.path as osp
 import shutil as sh
 import codecs
 
-def build_main_file():
+def build_env():
 	
 	main_file = codecs.open ("main_file.tex","wb+","utf-8")
 
@@ -34,16 +34,23 @@ def build_main_file():
 
 	## Conectfile
 	filelist = os.listdir( "notes" )
+	filelist.sort()
+
 	for filename in filelist:
-		#print osp.splitext(filename)[1] == '.tex'
 		fname = osp.splitext(filename)[0]
 		sux   = osp.splitext(filename)[1]
+
 		if sux == '.tex':
-			#print filename
-			main_file.writelines(u"\\input{notes/" + fname + u"}\n")
+			main_file.write(u"\\input{notes/" + fname + u"}\n")
+
+		if sux == '.bib':
+			sh.copy('notes/' + filename,'./')
+
+	sh.copy('templates/bibstyle.bst', './')
 
 	main_file.write(foot_text)
 	main_file.close()
 
-def build_pdf_file():
-	sh
+
+if __name__ == "__main__":
+	build_env();

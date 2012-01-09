@@ -1,9 +1,11 @@
 Build step of this project.
 
-1. Generate the main contral file.
-2. Copy .bib .tex file from notes dir to temp.
-3. Copy .rst file form templates dir to temp.
-4. latex the main file.
-5. bibtex bu[x].aux file for section reference.
-6. latex the main file.
-7. export pdf by dvipdfmx.
+1. Generate the main contral file.  DONE
+2. Copy .bib .tex file from notes dir to temp. DONE
+3. Copy .rst file form templates dir to temp.  DONE
+4. latex the main file. DONE
+5. bibtex bu[x].aux file for section reference. DONE
+6. latex the main file. DONE
+7. export pdf by dvipdfmx.  DONE
+
+windows auto generator.
