@@ -1,13 +1,41 @@
 \bibliography*{sample} %% setup reference database.
 \bibliographystyle*{bibstyle}     %% setup reference style.
 
-\section{Start with a Section}
+\section{快速多极边界元的四叉树生成算法}
 
-the main work flow of generating my document is like that.
+快速多极边界元方法借助了自适应四叉树，给出了边界元的加速算法。在使用这四叉树的边界元算法中，
+使得内存的使用量，和迭代计算的代价得到了改善。
 
-1. copy all tex file into a temprary diretory, and copy pics and codes dir into the tempprary dir.\\
-2. use files in the templates to generate the control file of this project. \\
-3. compile the contral file to generate the pdf. \\
+下面给出自适应四叉树的生成算法：
+\begin{enumerate}
+	\item [\textbf{Step 0.}] 给定树节点中最大单元数$emax$。  
+	\item [\textbf{Step 1.}] 初始化根结点，并设定其所在的层为第0层,并令$depth = 0$。
+	\item [\textbf{Step 2.}] 设$k = depth$, 遍历第$k-1$层的非叶子树节点，\footnote{在这一步之前并不知道$k-1$层的节点是否是叶子节点。}
+		\begin{enumerate}
+			\item [\textbf{Case 1.}] 如果树节点中的单元数小于等于$emax$, 标记该树节点为叶子节点。
+			\item [\textbf{Case 2.}] 如果树节点中的单元数大于$emax$, 标记该树节点为非叶子节点，并调用四分树节点算法，生成下一层的树节点。
+		\end{enumerate}
+	\item [\textbf{Step 3.}] 若有新的树节点产生，$depth = depth +1$,并转\textbf{Step 2}，否则转\textbf{Step 4}。
+	\item [\textbf{Step 4.}] 结束算法。
+\end{enumerate}
+
+四分树节点的算法：
+\begin{enumerate}
+	\item 读取设定的树节点最大单元数$emax$;
+	\item 计算该节点四个象限中的单元数;
+	\item 遍历四个象限，
+		\begin{enumerate}
+			\item 若该象限中的单元数不为0，则创建树节点，并将该子节点加入到树节点列表,若节点中的单元数大于$emax$,则将树节点标记为非叶子节点，
+				否则将该树节点标记为叶子节点。
+			\item 若该象限中的单元数为零，转到计算下一个象限。
+		\end{enumerate}
+	\item 算法结束。
+\end{enumerate}
+
+
+遍历树算法
+
+
 
 
 %\putbib[sample]             %% list reference.
