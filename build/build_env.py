@@ -23,6 +23,8 @@ import os.path as osp
 import shutil as sh
 import codecs
 
+
+## construct the document build env
 def build_env():
 	
 	main_file = codecs.open ("main_file.tex","wb+","utf-8")
@@ -51,6 +53,41 @@ def build_env():
 	main_file.write(foot_text)
 	main_file.close()
 
+## compile rules for generate the main doc
+def build_doc():
+	main_file = "main_file"
+
+	os.system("xelatex -quiet " + main_file)
+	
+	filelist = os.listdir( "./" )
+
+	for filename in filelist:
+		if osp.isfile(filename):
+			fname = osp.splitext(filename)[0][0:2]
+			#print fname
+			sux   = osp.splitext(filename)[1]
+			if fname == "bu" and sux == ".aux":
+					os.system("bibtex " + filename)
+					print filename
+
+
+	os.system("xelatex -quiet " + main_file)
+	os.system("xelatex -quiet " + main_file)
+	#os.system("dvipdfmx " + main_file)
+
+	
+## clean usless files
+def clean_env():
+	filelist = os.listdir( "./" )
+
+	for filename in filelist:
+		if osp.isfile(filename):
+			sux   = osp.splitext(filename)[1]
+			if sux != ".pdf" and sux != ".py":
+				os.remove(filename)
+
 
 if __name__ == "__main__":
 	build_env();
+	build_doc();
+	clean_env();
