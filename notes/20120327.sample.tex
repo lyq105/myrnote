@@ -1,0 +1,26 @@
+\bibliography*{20120327.sample} %% setup reference database.
+\bibliographystyle*{bibstyle}     %% setup reference style.
+
+\section{计算边界积分的退化核}
+
+若核函数可以表示为\cite{beatson1997short}
+\[
+K(x,y) = \sum_{k=1}^{p}\varphi_k(x)\varsigma_k(y)
+\]
+那么如下的矩
+
+\begin{equation}
+	A_k = \sum_{i=1}^{N} \wedge_i\varphi_k(y_i).
+\end{equation}
+可以先计算好，要计算源点处的函数值则只需要做$p$次乘法和$p-1$次加法。
+\begin{equation}
+	u(x) = \sum_{i=1}^{p}A_k\varsigma_k(x).
+\end{equation}
+则要是计算在$N$个点处的位势值的话，只需要$O(N)$的计算量。
+
+特别地在边界元中，若核函数可以展开为远场和近场同时适用的级数形式，那么计算则
+十分的简便。
+
+\putbib[20120327.sample]             %% list reference.
+
+\newpage
