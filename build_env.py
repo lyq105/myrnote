@@ -43,7 +43,7 @@ def build_env():
 		sux   = osp.splitext(filename)[1]
 
 		if sux == '.tex':
-			main_file.write(u"\\input{notes/" + fname + u"}\n")
+			main_file.write(u"\\include{notes/" + fname + u"}\n")
 
 		if sux == '.bib':
 			sh.copy('notes/' + filename,'./')
@@ -71,8 +71,10 @@ def build_doc():
 					print filename
 
 
-	os.system("xelatex -quiet " + main_file)
-	os.system("xelatex -quiet " + main_file)
+	os.system("xelatex " + main_file)
+	os.system("xelatex " + main_file)
+	#os.system("xelatex -quiet " + main_file)
+	#os.system("xelatex -quiet " + main_file)
 	#os.system("dvipdfmx " + main_file)
 
 	

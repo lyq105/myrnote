@@ -36,6 +36,7 @@
 
 %% 图形支持
 \usepackage{graphicx}
+\usepackage{subfigure}
 
 %%%%  色彩
 \usepackage{xcolor}
@@ -50,16 +51,16 @@
 	citecolor=blue,
 	%dvipdfmx
 ]{hyperref}
-
+\setmonofont{Monaco}
 \usepackage{listings}
 \lstset{
-basicstyle=\footnotesize\ttfamily,
+basicstyle=\tiny\footnotesize\ttfamily,
 keywordstyle=\color{blue},
 identifierstyle=, 
 commentstyle=\color{black},
 stringstyle=\ttfamily,
 showstringspaces=false,
-%numbers=left,
+numbers=left,
 backgroundcolor=\color{gray!15},
 lastline=4,
 %frame=single

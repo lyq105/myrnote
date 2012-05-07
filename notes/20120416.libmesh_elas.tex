@@ -1,0 +1,36 @@
+\section{使用libmesh求解悬臂梁的弯曲问题}
+
+悬臂梁问题的控制方程是如下的弹性力学方程组
+	\[ - {\partial _j}({c_{ijkl}}{\partial _k}{u_l}) = {f_i},\qquad i = 1 \ldots d,\]
+其中$d$表示维数，为3，${c_{ijkl}}$表示刚度系数张量，描述的是材料系数的，在大多数情形下，材料都是各向同性的材料，张量${c_{ijkl}}$可以用两个系数$\lambda $和$\mu $来表示，
+${c_{ijkl}} = \lambda {\delta _{ij}}{\delta _{kl}} + \mu ({\delta _{ik}}{\delta _{jl}} + {\delta _{il}}{\delta _{jk}})$
+从而弹性力学方程就可以表示为如下形式
+	 
+上式的右端相应的双线性形式
+	\[a({\mathbf{u}},{\mathbf{v}}) = {\left( {\lambda \nabla \cdot{\mathbf{u}},\nabla \cdot{\mathbf{v}}} \right)_\Omega } + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}{u_l},{\partial _k}{v_l}} \right)}_\Omega }}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}{u_l},{\partial _l}{v_k}} \right)}_\Omega }} ,\]
+或者写为
+	\[a({\mathbf{u}},{\mathbf{v}}) = \sum\limits_{k,l} {{{\left( {\lambda {\partial _l}{u_l},{\partial _k}{v_k}} \right)}_\Omega }}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}{u_l},{\partial _k}{v_l}} \right)}_\Omega }}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}{u_l},{\partial _l}{v_k}} \right)}_\Omega }} .\]
+下面讨论如何定义向量值形函数，对位移的每一个分量进行插值，则
+	\[{{\mathbf{u}}_h}({\mathbf{x}}) = \sum\limits_i {{\Phi _i}} ({\mathbf{x}})\;{U_i}\]
+在每一个单元上有，
+${u_i}(x) = \sum\limits_j {{\phi _j}(x)u_i^j} ,i = 1,2, \cdots ,d$
+其中$u_j^i$表示第i个位移的第j个插值系数。将双线性变分原理分解为
+$a(u,v) = \sum\limits_k {{a_k}(u,v)} $
+则有
+\[\begin{gathered}
+  a({\mathbf{u}},{\mathbf{v}}) = \sum\limits_e {\left( {\sum\limits_{k,l} {{{\left( {\lambda {\partial _l}{u_l},{\partial _k}{v_k}} \right)}_{{\Omega _e}}}}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}{u_l},{\partial _k}{v_l}} \right)}_{{\Omega _e}}}}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}{u_l},{\partial _l}{v_k}} \right)}_{{\Omega _e}}}} } \right)}  \hfill \\
+   = \sum\limits_e {\left( {\sum\limits_{k,l} {{{\left( {\lambda {\partial _l}\sum\limits_j {{\phi _j}(x)u_l^j} ,{\partial _k}{v_k}} \right)}_{{\Omega _e}}}}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}\sum\limits_j {{\phi _j}(x)u_l^j} ,{\partial _k}{v_l}} \right)}_{{\Omega _e}}}}  + \sum\limits_{k,l} {{{\left( {\mu {\partial _k}\sum\limits_j {{\phi _j}(x)u_l^j} ,{\partial _l}{v_k}} \right)}_{{\Omega _e}}}} } \right)}  \hfill \\
+   = \sum\limits_e {\sum\limits_{k,l} {\sum\limits_j {u_l^j} {{\left( {\lambda {\partial _l}{\phi _j}(x),{\partial _k}{v_k}} \right)}_{{\Omega _e}}}}  + \sum\limits_{k,l} {\sum\limits_j {u_l^j} {{\left( {\mu {\partial _k}{\phi _j}(x),{\partial _k}{v_l}} \right)}_{{\Omega _e}}}}  + \sum\limits_{k,l} {\sum\limits_j {u_l^j} {{\left( {\mu {\partial _k}{\phi _j}(x),{\partial _l}{v_k}} \right)}_{{\Omega _e}}}} }  \hfill \\ 
+\end{gathered} \]
+若再取测试函数v为$\phi $
+定义： 
+	\[\begin{gathered}
+  \sum\limits_{i,j} {{U_i}} {V_j}\sum\limits_{k,l} {\left\{ {{{\left( {\lambda {\partial _l}{{({\Phi _i})}_l},{\partial _k}{{({\Phi _j})}_k}} \right)}_\Omega } + {{\left( {\mu {\partial _l}{{({\Phi _i})}_k},{\partial _l}{{({\Phi _j})}_k}} \right)}_\Omega } + {{\left( {\mu {\partial _l}{{({\Phi _i})}_k},{\partial _k}{{({\Phi _j})}_l}} \right)}_\Omega }} \right\}}  \hfill \\
+   = \sum\limits_j {{V_j}} \sum\limits_l {{{\left( {{f_l},{{({\Phi _j})}_l}} \right)}_\Omega }} . \hfill \\ 
+\end{gathered} \]
+在单元上就要求解如下的矩阵。
+
+	\[A_{ij}^K = \sum\limits_{k,l} {\left\{ {{{\left( {\lambda {\partial _l}{{({\Phi _i})}_l},{\partial _k}{{({\Phi _j})}_k}} \right)}_\Omega } + {{\left( {\mu {\partial _l}{{({\Phi _i})}_k},{\partial _l}{{({\Phi _j})}_k}} \right)}_\Omega } + {{\left( {\mu {\partial _l}{{({\Phi _i})}_k},{\partial _k}{{({\Phi _j})}_l}} \right)}_\Omega }} \right\}} \]
+	\[f_j^K{\text{ }} = \sum\limits_l {{{\left( {{f_l},{{({\Phi _j})}_l}} \right)}_K}} {\text{  = }}\sum\limits_l {{{\left( {{f_l},{\phi _j}{\delta _{l,{\text{comp}}(j)}}} \right)}_K}} {\text{  = }}{\left( {{f_{{\text{comp}}(j)}},{\phi _j}} \right)_K}.\]
+
+\lstinputlisting[language=C]{codes/libmesh_ex4.C}
