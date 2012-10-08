@@ -1,0 +1,116 @@
+
+%% setup reference database.
+\bibliography*{20121008bem_mesh}
+\bibliographystyle*{bibstyle}     %% setup reference style.
+%% Section title
+\section{关于边界元网格的考虑}
+
+在边界元计算中，首先要生成边界元网格，这样的网格可以通过有限元网格的生成来实现。
+一般来说，只要提取出有限元网格的表面就可以当作边界元计算的网格了。
+
+\subsection{gmsh对边界元网格生成的支持}
+下面给出gmsh网格数据文件的例子\cite{geuzaine2009gmsh}.
+\begin{lstlisting}
+		 $MeshFormat
+     2.2 0 8
+     $EndMeshFormat
+     $Nodes
+     6                      six mesh nodes:
+     1 0.0 0.0 0.0            node #1: coordinates (0.0, 0.0, 0.0)
+     2 1.0 0.0 0.0            node #2: coordinates (1.0, 0.0, 0.0)
+     3 1.0 1.0 0.0            etc.
+     4 0.0 1.0 0.0
+     5 2.0 0.0 0.0
+     6 2.0 1.0 0.0
+     $EndNodes
+     $Elements
+     2                      two elements:
+     1 3 2 99 2 1 2 3 4       quad #1: type 3, physical 99, elementary 2, nodes 1 2 3 4
+     2 3 2 99 2 2 5 6 3       quad #2: type 3, physical 99, elementary 2, nodes 2 5 6 3
+     $EndElements
+     $NodeData
+     1                      one string tag:
+     "A scalar view"          the name of the view ("A scalar view")
+     1                      one real tag:
+     0.0                      the time value (0.0)
+     3                      three integer tags:
+     0                        the time step (0; time steps always start at 0)
+     1                        1-component (scalar) field
+     6                        six associated nodal values
+     1 0.0                  value associated with node #1 (0.0)
+     2 0.1                  value associated with node #2 (0.1)
+     3 0.2                  etc.
+     4 0.0
+     5 0.2
+     6 0.4
+     $EndNodeData	
+\end{lstlisting}
+这是一个gmsh2的文件格式，这个文件将所有的单元都写在文件里面了。
+\subsection{netgen对边界元网格生成的支持}
+下面给出netgen的两种网格文件的例子\cite{schoberl1997netgen}。
+\begin{lstlisting}
+surfacemesh
+8
+         0          0          0 
+         0          0          1 
+         1          0          0 
+         0          1          0 
+         1          0          1 
+         0          1          1 
+         1          1          0 
+         1          1          1 
+12
+       1       4       7
+       7       3       1
+       4       1       2
+       2       6       4
+       8       7       4
+       6       8       4
+       7       8       5
+       3       7       5
+       8       6       2
+       2       5       8
+       3       5       2
+       1       3       2
+\end{lstlisting}
+这一个文件是表面网格数据，他的包含的是8个点和12个三角形面，覆盖了一个正方体。
+\begin{lstlisting}
+8
+  0.000000  0.000000  0.000000
+  0.000000  0.000000  1.000000
+  1.000000  0.000000  0.000000
+  0.000000  1.000000  0.000000
+  1.000000  0.000000  1.000000
+  0.000000  1.000000  1.000000
+  1.000000  1.000000  0.000000
+  1.000000  1.000000  1.000000
+6
+   1          4        2        6        8
+   1          8        7        2        5
+   1          3        2        1        7
+   1          3        5        2        7
+   1          1        2        4        7
+   1          8        7        4        2
+12
+   1            1        4        7
+   1            7        3        1
+   2            4        1        2
+   2            2        6        4
+   3            8        7        4
+   3            6        8        4
+   4            7        8        5
+   4            3        7        5
+   5            8        6        2
+   5            2        5        8
+   6            3        5        2
+   6            1        3        2
+\end{lstlisting}
+这一个文件是体网格数据，他的包含的是8个点和12个三角形面以及6个四面体单元，这些单元剖分了一个正方体, 其中单元的数据行开始都是以其标记开始的。
+
+\subsection{总结}
+需要注意的是，对于生成的表面网格，都是外法向反时针的顺序。因此就不需要再对得到的外法向做方向调整了。
+
+今后的主要支持方向还是gmsh,因为还有数据文件，数据文件还指望gmsh。
+%% list references if any.
+\putbib[20121008bem_mesh]
+\newpage
