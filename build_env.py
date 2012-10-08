@@ -73,7 +73,7 @@ def build_doc():
 
 	os.system("xelatex " + main_file)
 	os.system("xelatex " + main_file)
-	#os.system("xelatex -quiet " + main_file)
+#os.system("xelatex -quiet " + main_file)
 	#os.system("xelatex -quiet " + main_file)
 	#os.system("dvipdfmx " + main_file)
 
@@ -85,11 +85,25 @@ def clean_env():
 	for filename in filelist:
 		if osp.isfile(filename):
 			sux   = osp.splitext(filename)[1]
-			if sux != ".pdf" and sux != ".py":
+			if sux != ".pdf" and sux != ".py" and sux != '.swp':
+				print filename
 				os.remove(filename)
+	filelist = os.listdir( "notes/" )
+	#print filelist
+	for filename in filelist:
+		#print filename
+		if osp.isfile('notes/' + filename):
+			#print filename
+			sux   = osp.splitext(filename)[1]
+			print sux
+			if sux == ".aux":
+				print filename
+				os.remove('notes/'+filename)
 
 
 if __name__ == "__main__":
 	build_env();
 	build_doc();
+	print "Start clean docs!!"
+	os.system("pause")
 	clean_env();

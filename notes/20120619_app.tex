@@ -1,0 +1,17 @@
+\section{自适应插值逼近}
+\begin{lemma}
+Let   and $\hat{\Omega}$ be affine equivalent, i.e. there exists a bijective affine mapping 
+\[
+F: \hat{\Omega} \rightarrow \Omega, F\hat{x} = B\hat{x} + b
+\]
+with a nonsigular matrix $B$. If $v \in H^m(\Omega)$, then $\hat{v} = v \circ F \in H^{m}(\hat{\Omega})$ and there exist a constant $C = C(m,d)$ such that
+\begin{equation}
+	|\hat{v}|_{H^{m}(\hat{\Omega})} \le C \| B \|^{m}|\det B|^{-1/2}|v|_{H^{m}(\Omega)},
+\end{equation}
+\begin{equation}
+	|v|_{H^{m}(\hat{\Omega})} \le C \| B^{-1} \|^{m}|\det B|^{-1/2}|v|_{H^{m}(\hat{\Omega})}.
+\end{equation}
+Here $\|\cdot \|$ denotes the matrix noem associated with the Euclidean norm in $\mathcal{R}^d$.
+	\label{lemma1}
+\end{lemma}
+

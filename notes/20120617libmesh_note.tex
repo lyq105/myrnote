@@ -1,0 +1,62 @@
+\section{libmesh备忘}
+
+使用triangle产生一个具有孔洞的三角网格。
+\begin{lstlisting}[language=C]
+	Mesh mesh(2);
+	mesh.add_point(Point(-1,-1));
+	mesh.add_point(Point(1,-1));
+	mesh.add_point(Point(1,1));
+	mesh.add_point(Point(-1,1));
+
+	TriangleInterface t(mesh);
+
+	// Customize the variables for the triangulation
+	t.desired_area()       = .0001;
+	t.triangulation_type() = TriangleInterface::PSLG;
+	t.smooth_after_generating() = true;
+	PolygonHole hole_1(Point(0.,  0.), // center
+	0.51,              // radius
+	100);               // n. points
+	std::vector<Hole*> holes;
+	holes.push_back(&hole_1);
+	t.attach_hole_list(&holes);
+	t.triangulate();
+	mesh.prepare_for_use(false);
+\end{lstlisting}
+注意最后一行的prepare\_for\_use(),必须要调用才能使用网格。他的原型是
+\begin{lstlisting}[language=C]
+void libMesh::MeshBase::prepare_for_use	(	const bool 	skip_renumber_nodes_and_elements = true	)		
+\end{lstlisting}
+它包含三个步骤
+\begin{itemize}
+	\item 1.) call find\_neighbors()
+	\item 2.) call partition() 
+	\item 3.) call renumber\_nodes\_and\_elements()
+\end{itemize}
+\begin{lstlisting}[language=C]
+	FEType fe_type(FIRST, LAGRANGE); // 指定逼近的单元族
+  equation_systems.get_system("Poisson").add_variable("u", fe_type); //将逼近与变量结合起来
+\end{lstlisting}
+solve 包含两个基本的步骤，一个是调用组装函数，另一个是求解线性方程组。
+\begin{lstlisting}[language=C]
+ equation_systems.get_system("Poisson").solve();
+\end{lstlisting}
+
+这样可以直接输出计算结果到Tecplot
+\begin{lstlisting}[language=C]
+	TecplotIO(mesh).write_equation_systems ("squre_tri_res.plt",equation_systems);
+\end{lstlisting}
+定义第一类边界条件，下面的代码表示将3号边界上的u和v均设置为0.
+\begin{lstlisting}[language=C]
+ std::set<boundary_id_type> boundary_ids;
+          boundary_ids.insert(3);
+std::vector<unsigned int> variables(2);
+          variables[0] = u_var; variables[1] = v_var;				
+ZeroFunction<> zf;
+DirichletBoundary dirichlet_bc(boundary_ids,
+variables,
+&zf);
+\end{lstlisting}
+
+
+\lstinputlisting[language=C]{codes/thermal_2D.C}
