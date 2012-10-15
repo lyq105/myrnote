@@ -1,0 +1,47 @@
+
+%% setup reference database.
+\bibliography*{20121015runmpi}
+\bibliographystyle*{bibstyle}     %% setup reference style.
+%% Section title
+\section{曙光机群中MPI的使用方法}
+
+1. 配置运行环境确认你要用的mpi
+
+	source /public/software/mpi/openmpi1.3.4-gnu.sh
+or 
+	source /public/software/mpi/openmpi1.3.4-intel.sh
+
+2. 确认mpicc所调用的编译器
+
+	mpicc -show
+
+3. 编译cpi.c
+	
+	mpicc -o cpi-openmpi cpi.c
+
+4 运行
+
+	mpirun -np 16 -machinefile ma --mca btl self,tcp  ./cpi-openmpi
+
+参数说明
+	-np 16 启16个进程
+	-machinefile ma 文件写出在哪些节点上执行该命令，格式如下
+	ma的格式如下
+	node1 slots=8
+	node2 slots=8
+5 查看该openmpi支持的网络协议
+
+	ompi_info | grep btl 
+
+6 运行OpenMPI时选择网络协议的方法
+
+--mca btl self,tcp              使用以太网TCP/IP通讯
+               self,sm               当单节点运行的时候，使用内存通讯，效率高
+               self,openib         有infiniband设备时，使用IB通讯
+               self,sm,openib   有infiniband设备时，节点间使用IB通讯，节点内使用内存通信
+
+--mca btl_tcp_if_include eth0 以太网通讯时用eth0通讯
+
+%% list references if any.
+%\putbib[20121015runmpi]
+\newpage
