@@ -23,6 +23,34 @@ import os.path as osp
 import shutil as sh
 import codecs
 
+## generate the note list.
+
+def note_list():
+
+	note_data = []
+
+	filelist = os.listdir( "notes" )
+	filelist.sort()
+
+	for filename in filelist:
+		sux   = osp.splitext(filename)[1]
+
+		if sux == '.tex':
+
+			note_date = filename[0:4]+"-"+filename[4:6]+ "-" + filename[6:8]
+			for line in open("notes/"+filename).readlines():
+				if line.find("\\section") != -1:
+					#print line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
+					section_name = line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
+					note_data.append([filename, note_date, section_name])
+					
+	#print tex_file_list
+	return note_data
+	
+def print_note_data():
+	note_data = note_list()
+	for record in note_data:
+		print record[1] + " " + record[2]
 
 ## construct the document build env
 def build_env():
@@ -102,8 +130,11 @@ def clean_env():
 
 
 if __name__ == "__main__":
-	build_env();
-	build_doc();
-	print "Start clean docs!!"
-	os.system("pause")
-	clean_env();
+	#build_env();
+	#build_doc();
+	#print "Start clean docs!!"
+	#os.system("pause")
+	#clean_env();
+	print_note_data()
+
+	#note_list()
