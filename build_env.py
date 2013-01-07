@@ -41,7 +41,8 @@ def note_list():
 			for line in open("notes/"+filename).readlines():
 				if line.find("\\section") != -1:
 					#print line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
-					section_name = line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
+					#section_name = line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
+					section_name = line.split("{")[1].split("}")[0]
 					note_data.append([filename, note_date, section_name])
 					
 	#print tex_file_list
@@ -130,11 +131,11 @@ def clean_env():
 
 
 if __name__ == "__main__":
-	#build_env();
-	#build_doc();
-	#print "Start clean docs!!"
+	build_env();
+	build_doc();
+	print "Start clean docs!!"
 	#os.system("pause")
-	#clean_env();
-	print_note_data()
+	clean_env();
+	#print_note_data()
 
 	#note_list()
