@@ -1,0 +1,27 @@
+
+	%% setup reference database.
+	\bibliography*{2013-01-12-matrix_deconposation}
+	\bibliographystyle*{bibstyle}     %% setup reference style.
+	%% Section title
+	\section{矩阵分解定理}
+	\begin{theorem}
+  (谱分解定理) 设$A \in \mathcal{R}^{n \times n}$实对称矩阵，则存在一个实正交矩阵$Q$和一个实对角矩阵$\Lambda$,使得
+  \begin{equation}
+    A = Q \Lambda Q^{T}
+    \label{depo}
+  \end{equation}
+  称上述分解为$A$的\textbf{谱分解}. 假设$Q=[q_1,q_2,\cdots,q_n],\Lambda = diag(\lambda_1,\lambda,\cdots,\lambda)$.
+  则(\ref{depo})可以写为
+  \begin{equation}
+    A = \lambda_1 q_1 q_1^T + \lambda_2 q_2 q_2^T + \cdots + \lambda_n q_n q_n^T.  
+  \end{equation}
+  \label{sdp}
+\end{theorem}
+\begin{remark}
+  从定理\ref{sdp}可以看出来，这个定义矩阵可以表示成一个低秩矩阵的分解。特别是在大量特征值为零的时候。
+\end{remark}
+
+	%% list references if any.
+	\putbib[2013-01-12-matrix_deconposation]
+	\newpage
+	

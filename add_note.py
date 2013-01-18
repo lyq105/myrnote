@@ -45,7 +45,7 @@ def print_note_data():
 
 def add_note():
 	# 1 determine the note title.
-	note_date = time.strftime('%Y-%m-%d-',time.localtime(time.time()))
+	note_date = time.strftime('%Y%m%d',time.localtime(time.time()))
 	note_title = note_date + raw_input("Please input the note title:")
 
 	note = open('notes/' + note_title + '.tex','w')
@@ -109,6 +109,7 @@ def main_program():
 			add_note()
 		else:
 			print_note_data()
+			os.system("pause")
 	
 
 if __name__ == "__main__":
