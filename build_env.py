@@ -74,6 +74,10 @@ def build_env():
 		if sux == '.tex':
 			main_file.write(u"\\include{notes/" + fname + u"}\n")
 
+		if sux == '.md':
+			os.system("pandoc notes/"+filename+ " -o " + fname +'.tex')
+			main_file.write(u"\\include{" + fname + u"}\n")
+
 		if sux == '.bib':
 			sh.copy('notes/' + filename,'./')
 

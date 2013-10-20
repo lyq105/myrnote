@@ -19,7 +19,7 @@ def note_list():
 	for filename in filelist:
 		sux   = osp.splitext(filename)[1]
 
-		if sux == '.tex':
+		if sux == '.tex' or sux == '.md':
 
 			note_date = filename[0:4]+"-"+filename[4:6]+ "-" + filename[6:8]
 			for line in open("notes/"+filename).readlines():
@@ -78,10 +78,51 @@ def add_note():
 	%% If there is any bibliography, Please list it below.
 	"""
 	)
-	bib .close()
+	bib.close()
 
 	## use gvim to edit them.
 	os.system('gvim -O ' + 'notes/' + note_title + '.tex'+' notes/' + note_title + '.bib')
+
+def add_note_md():
+	# 1 determine the note title.
+	note_date = time.strftime('%Y%m%d',time.localtime(time.time()))
+	note_title = note_date + raw_input("Please input the note title:")
+
+	note = open('notes/' + note_title + '.md','w')
+	note.write(
+	'''
+	%% setup reference database.
+	'''
+	+
+	'\\bibliography*{' + note_title +'}'
+	'''
+	\\bibliographystyle*{bibstyle}     %% setup reference style.
+	%% Section title
+	\section{<++>}
+	'''
+	+
+	'''
+	%% list references if any, or you just delete the code belowe.
+	'''
+	+
+	'\putbib[' + note_title +']'
+	'''
+	\\newpage
+	'''
+	)
+	note.close()
+	
+	bib = open('notes/' + note_title + '.bib','w')
+	bib.write(
+	"""
+	%% If there is any bibliography, Please list it below.
+	"""
+	)
+	bib.close()
+
+	## use gvim to edit them.
+	os.system('gvim -O ' + 'notes/' + note_title + '.md'+' notes/' + note_title + '.bib')
+
 
 def edit_note():
 	print "Chose which notes should be edited:"
@@ -106,7 +147,14 @@ def main_program():
 		edit_note()
 	else:
 		if input_option == "2":
-			add_note()
+			print "1. for tex."
+			print "2. for pandoc markdown."
+			
+			input_option = raw_input("Please chose an option:[1]")
+			if input_option == "1":
+				add_note()
+			else:
+				add_note_md()
 		else:
 			print_note_data()
 			os.system("pause")
