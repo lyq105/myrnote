@@ -25,8 +25,8 @@ def note_list():
 			for line in open("notes/"+filename).readlines():
 				if line.find("\\section") != -1:
 					#print line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
-					#section_name = line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
-					section_name = line.split("{")[1].split("}")[0]
+					section_name = line.split("{")[1].split("}")[0].decode("utf-8").encode("gbk")
+					#section_name = line.split("{")[1].split("}")[0]
 					note_data.append([filename, note_date, section_name])
 					
 	#print tex_file_list
